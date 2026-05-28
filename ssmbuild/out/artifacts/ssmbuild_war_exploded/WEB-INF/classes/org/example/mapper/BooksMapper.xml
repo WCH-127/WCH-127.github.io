@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.BooksMapper">
+    <!-- 增加一本书 -->
+    <insert id="addBook" parameterType="org.example.pojo.Books">
+        insert into books (bookName, bookCounts, detail)
+        values (#{bookName}, #{bookCounts}, #{detail})
+    </insert>
+
+    <!-- 删除一本书 -->
+    <delete id="deleteBookById" parameterType="int">
+        delete from books where bookId = #{bookId}
+    </delete>
+
+    <!-- 更新一本书 -->
+    <update id="updateBook" parameterType="org.example.pojo.Books">
+        update books
+        <set>
+            <if test="bookName != null and bookName != ''">
+                bookName = #{bookName},
+            </if>
+            <if test="bookCounts != null">
+                bookCounts = #{bookCounts},
+            </if>
+            <if test="detail != null">
+                detail = #{detail},
+            </if>
+        </set>
+        where bookId = #{bookId}
+    </update>
+
+    <!-- 查询一本书 -->
+    <select id="selectBookById" parameterType="int" resultType="org.example.pojo.Books">
+        select * from books where bookId = #{bookId}
+    </select>
+
+    <!-- 查询全部的书 -->
+    <select id="selectAllBook" resultType="org.example.pojo.Books">
+        select * from books order by bookId
+    </select>
+    <!-- 搜索框查询   -->
+    <select id="selectBookByName" resultType="org.example.pojo.Books">
+        select * from books where bookName = #{bookName}
+    </select>
+
+</mapper>
